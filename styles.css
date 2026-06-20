@@ -23,3 +23,9 @@ h1 {
 .poem-card:hover {
   transform: scale(1.02);
 }
+.poem-card {
+  cursor: pointer;
+}
+.poem-card:hover {
+  transform: scale(1.02);
+}
