@@ -13,6 +13,10 @@ async function loadPoems() {
     data.posts.forEach(post => {
       const card = document.createElement("div");
       card.className = "poem-card";
+      card.onclick = () => {
+  window.location.href =
+    `poem.html?id=${post.ID}`;
+};
 
       card.innerHTML = `
         <h2>${post.title}</h2>
