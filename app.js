@@ -1,27 +1,56 @@
-const API =
-'https://public-api.wordpress.com/rest/v1.1/sites/annapurani93.wordpress.com/posts?number=1000';
+const BASE_API =
+'https://public-api.wordpress.com/rest/v1.1/sites/annapurani93.wordpress.com/posts';
 
 let allPoems = [];
 
-async function loadPoems(){
+async function loadPoems() {
 
-    const response =
-        await fetch(API);
+  try {
 
-    const data =
-        await response.json();
+    let page = 1;
+    let finished = false;
+    allPoems = [];
 
-    allPoems =
-        data.posts;
+    while (!finished) {
+
+      const response = await fetch(
+        `${BASE_API}?number=100&page=${page}`
+      );
+
+      const data = await response.json();
+
+      if (!data.posts || data.posts.length === 0) {
+        finished = true;
+        break;
+      }
+
+      allPoems.push(...data.posts);
+
+      page++;
+
+      if (page > 20) {
+        break;
+      }
+    }
+
+    console.log(
+      "Total posts:",
+      allPoems.length
+    );
 
     populateStats();
-
     populateYears();
-
     renderPoems(allPoems);
-
     addFilters();
+
+  }
+
+  catch(error) {
+    console.error(error);
+  }
 }
+
+loadPoems();
 
 function renderPoems(poems){
 
@@ -64,58 +93,69 @@ function renderPoems(poems){
     });
 }
 
-function populateStats(){
+function populateStats() {
 
-    document.getElementById(
-        "total-poems"
-    ).innerText =
-        allPoems.length;
+  document.getElementById(
+    "total-poems"
+  ).innerText =
+    allPoems.length.toLocaleString();
 
-    const years =
-        allPoems.map(
-            p=>new Date(p.date)
-            .getFullYear()
-        );
+  if (allPoems.length === 0) {
+    return;
+  }
 
-    const firstYear =
-        Math.min(...years);
+  const years =
+    allPoems
+      .map(
+        p => new Date(p.date)
+          .getFullYear()
+      )
+      .filter(Boolean);
 
-    document.getElementById(
-        "years-writing"
-    ).innerText =
-        new Date().getFullYear()
-        - firstYear + 1;
+  const firstYear =
+    Math.min(...years);
 
-    let words = [];
+  document.getElementById(
+    "years-writing"
+  ).innerText =
+    (
+      new Date().getFullYear()
+      -
+      firstYear
+      +
+      1
+    ).toLocaleString();
 
-    allPoems.forEach(post=>{
+  let words = [];
 
-        const text =
-            stripHtml(
-                post.content
-            );
+  allPoems.forEach(post => {
 
-        words.push(
-            ...text
-            .toLowerCase()
-            .split(/\s+/)
-        );
-    });
+    const text =
+      stripHtml(
+        post.content || ""
+      );
 
-    document.getElementById(
-        "total-words"
-    ).innerText =
-        words.length
-        .toLocaleString();
+    words.push(
+      ...text
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(
+          word => word.length > 0
+        )
+    );
+  });
 
-    const unique =
-        new Set(words);
+  document.getElementById(
+    "total-words"
+  ).innerText =
+    words.length.toLocaleString();
 
-    document.getElementById(
-        "unique-words"
-    ).innerText =
-        unique.size
-        .toLocaleString();
+  document.getElementById(
+    "unique-words"
+  ).innerText =
+    new Set(words)
+      .size
+      .toLocaleString();
 }
 
 function populateYears(){
@@ -171,43 +211,47 @@ function addFilters(){
     );
 }
 
-function filterPoems(){
+function filterPoems() {
 
-    const search =
-        document.getElementById(
-            "search"
-        )
-        .value
-        .toLowerCase();
+  const search =
+    document.getElementById(
+      "search"
+    )
+    .value
+    .toLowerCase();
 
-    const year =
-        document.getElementById(
-            "year-filter"
-        )
-        .value;
+  const year =
+    document.getElementById(
+      "year-filter"
+    )
+    .value;
 
-    const filtered =
-        allPoems.filter(post=>{
+  const filtered =
+    allPoems.filter(post => {
 
-            const matchesSearch =
-                post.title
-                .toLowerCase()
-                .includes(search);
+      const title =
+        (post.title || "")
+          .toLowerCase();
 
-            const matchesYear =
-                year === "all"
-                ||
-                new Date(post.date)
-                .getFullYear()
-                ==
-                year;
+      const matchesSearch =
+        title.includes(search);
 
-            return matchesSearch
-                &&
-                matchesYear;
-        });
+      const matchesYear =
+        year === "all"
+        ||
+        String(
+          new Date(post.date)
+            .getFullYear()
+        ) === year;
 
-    renderPoems(filtered);
+      return (
+        matchesSearch
+        &&
+        matchesYear
+      );
+    });
+
+  renderPoems(filtered);
 }
 
 function stripHtml(html){
