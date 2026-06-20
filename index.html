@@ -1,19 +1,97 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Cartography of a Poet's Mind</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Cartography of a Poet's Mind</h1>
+<div class="hero">
 
-<div id="poems"></div>
+    <div class="hero-content">
+
+        <h1>Cartography of a Poet's Mind</h1>
+
+        <p class="tagline">
+            An interactive archive of poems, memories, emotions and stories.
+            Every poem becomes a universe.
+        </p>
+
+        <a href="#poem-section" class="button">
+            Explore Poems
+        </a>
+
+    </div>
+
+</div>
+
+<section class="about">
+
+    <h2>About This Project</h2>
+
+    <p>
+        Cartography of a Poet's Mind is an interactive poetry archive by
+        <strong>Annapurani Vaidyanathan</strong>.
+
+        Every poem written on the blog automatically appears here and is
+        transformed into data, colours, emotions and visual experiences.
+    </p>
+
+</section>
+
+<section class="stats">
+
+    <div class="stat-card">
+        <h3 id="total-poems">0</h3>
+        <p>Poems</p>
+    </div>
+
+    <div class="stat-card">
+        <h3 id="years-writing">0</h3>
+        <p>Years Writing</p>
+    </div>
+
+    <div class="stat-card">
+        <h3 id="total-words">0</h3>
+        <p>Total Words</p>
+    </div>
+
+    <div class="stat-card">
+        <h3 id="unique-words">0</h3>
+        <p>Unique Words</p>
+    </div>
+
+</section>
+
+<section class="filters">
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Search poems..."
+    >
+
+    <select id="year-filter">
+        <option value="all">
+            All Years
+        </option>
+    </select>
+
+</section>
+
+<section id="poem-section">
+
+    <h2>Poems</h2>
+
+    <div id="poems"></div>
+
+</section>
 
 <script src="app.js"></script>
 
 </body>
-
 </html>
