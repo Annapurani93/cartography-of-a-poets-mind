@@ -12,6 +12,7 @@ async function loadPoems() {
 
     data.posts.forEach(post => {
       const card = document.createElement("div");
+      card.className = "poem-card";
 
       card.innerHTML = `
         <h2>${post.title}</h2>
