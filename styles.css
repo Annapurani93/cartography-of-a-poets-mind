@@ -1,31 +1,166 @@
-body {
-  background: #111;
-  color: white;
-  font-family: Georgia, serif;
-  max-width: 900px;
-  margin: auto;
-  padding: 40px;
+*{
+    box-sizing:border-box;
 }
 
-h1 {
-  text-align: center;
+html{
+    scroll-behavior:smooth;
 }
 
-.poem-card {
-  background: #1e1e1e;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  transition: 0.3s;
+body{
+    margin:0;
+    font-family:Georgia, serif;
+    background:
+        linear-gradient(
+            180deg,
+            #0f172a,
+            #111827,
+            #1e293b
+        );
+    color:white;
 }
 
-.poem-card:hover {
-  transform: scale(1.02);
+/* HERO */
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px;
 }
-.poem-card {
-  cursor: pointer;
+
+.hero-content{
+    max-width:900px;
 }
-.poem-card:hover {
-  transform: scale(1.02);
+
+.hero h1{
+    font-size:4rem;
+    margin-bottom:20px;
+}
+
+.tagline{
+    font-size:1.4rem;
+    color:#d1d5db;
+    line-height:1.7;
+}
+
+.button{
+    display:inline-block;
+    margin-top:30px;
+    padding:15px 35px;
+    background:#8b5cf6;
+    color:white;
+    text-decoration:none;
+    border-radius:50px;
+    transition:.3s;
+}
+
+.button:hover{
+    background:#7c3aed;
+}
+
+/* SECTIONS */
+
+.about,
+.filters,
+.stats,
+#poem-section{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:70px 0;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(200px,1fr));
+    gap:25px;
+}
+
+.stat-card{
+    background:
+        rgba(255,255,255,0.06);
+
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+
+    backdrop-filter:blur(10px);
+}
+
+.stat-card h3{
+    font-size:3rem;
+    margin:0;
+    color:#c4b5fd;
+}
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    flex:1;
+    font-size:1rem;
+}
+
+/* POEM GRID */
+
+#poems{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+}
+
+.poem-card{
+    background:
+        rgba(255,255,255,0.05);
+
+    border-radius:20px;
+    padding:25px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.poem-card:hover{
+    transform:translateY(-8px);
+    background:
+        rgba(255,255,255,0.08);
+}
+
+.poem-card h2{
+    margin-top:0;
+}
+
+.poem-date{
+    color:#9ca3af;
+    margin-bottom:20px;
+}
+
+.poem-excerpt{
+    color:#d1d5db;
+    line-height:1.7;
+}
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:2.5rem;
+    }
+
+    .tagline{
+        font-size:1.1rem;
+    }
 }
